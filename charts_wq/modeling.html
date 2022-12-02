@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+	<link rel="stylesheet" href="./style.css">
+  
+	<link href="node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  
+
+  <script src="./node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+
+<style>
+
+p {
+  font-size: 29px;
+}
+</style>
+
+    <div class="card p-3">
+      <h2 class="text-center">Modeling Analysis</h2>
+<br><br>
+    <div class="text-center mb-2">
+      <b>User:</b> <br><br>
+        Number of Reviews You Wrote
+      <select class="select" id="user_review_count">
+        <option value="">review count</option>
+        <option value="500">500</option>
+        <option value="1500">1500</option>
+        <option value="2500">2500</option>
+        <option value="3500">3500</option>
+        <option value="4500">4500</option>
+    </select>
+    Average of Stars You Rate
+
+    <select class="select" id="user_avg_star">
+      <option value="">Average Stars</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    Number of Useful Reviews 
+    <select class="select" id="review_useful">
+      <option value="">Percantage</option>
+        <option value="0.25">Less than 50%</option>
+        <option value="0.75">More than 50%</option>
+    </select>
+    <br><br>
+    <b>Business:</b>
+  <br><br>
+    business stars
+    <select class="select" id="business_stars">
+      <option value="">Star Level</option>
+        <option value="1">1</option>
+        <option value="1.5">1.5</option>
+        <option value="2">2</option>
+        <option value="2.5">2.5</option>
+        <option value="3">3</option>
+        <option value="3.5">3.5</option>
+        <option value="4">4</option>
+        <option value="4.5">4.5</option>
+        <option value="5">5</option>
+    </select>
+    Business Review Count
+    <select class="select" id="business_review_count">
+      <option value="">Count</option>
+        <option value="700">700</option>
+        <option value="2100">2100</option>
+        <option value="3500">3500</option>
+        <option value="4900">4900</option>
+        <option value="6300">6300</option>
+      </select>
+      Business Open Status
+      <select class="select" id="is_open">
+        <option value="">Open Status</option>
+          <option value="0">Closed</option>
+          <option value="1">Open</option>
+
+      </select>
+      <br><br>
+      Business Category
+      <select class="select" id="new_category">
+        <option value="">Category</option>
+          <option value="20">restaurants</option>
+          <option value="21">shopping</option>
+          <option value="3">beauty&spas</option>
+          <option value="7">food</option>
+          <option value="9"> home service</option>
+      </select>
+      Average Weekdays Open Hours
+      <select class="select" id="weekdays_hours">
+        <option value="">Open Hours</option>
+          <option value="2.5">2.5</option>
+          <option value="7.5">7.5</option>
+          <option value="12.5">12.5</option>
+          <option value="17.5">17.5</option>
+          <option value="22">22</option>
+        </select>
+        Average Weekend Open Hours
+        <select class="select" id="weekend_hours" >
+          <option value="">Open Hours</option>
+          <option value="2.5">2.5</option>
+          <option value="7.5">7.5</option>
+          <option value="12.5">12.5</option>
+          <option value="17.5">17.5</option>
+          <option value="22">22</option>
+          </select>
+          <br><br>
+          <button type="button" onclick="predict()">Predict</button>
+          <br><br>
+          <div id="fill_in">Please fill in all the choices</div>
+
+          <div id="ready">Ready to Predict</div>
+          <br><br>
+          <p id="demo"><b></b></p>
+  </div>
+ 
+
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+
+   
+    document.getElementById('fill_in').style.display = 'block';
+    document.getElementById('fill_in').style.color = 'red';
+    document.getElementById('ready').style.display = 'none';
+    document.getElementById('ready').style.color = 'red';
+
+    function predict() {
+        d3.json("pred.json").then(result => {
+              final_v[2]=parseInt(final_v[0])*parseFloat(final_v[2]).toString();
+              final_v[7]=(parseFloat(final_v[7])*5).toString();
+              final_v[8]=(parseFloat(final_v[8])*2).toString();
+              test=final_v.join()
+
+              pred_star=result[test]
+              console.log(pred_star);
+              // console.log(final_v)});
+              
+              document.getElementById("demo").innerHTML = 'The predicted stars of the particular bussines would be:' +pred_star;
+            });};
+    var final_v;
+    $('.select').change(function() {
+        values = $('.select').find('option:selected').map(function() {
+          return $(this).val()
+        }).get();
+        $(document).ready(function() {
+
+      if (values.includes("")) {
+
+          document.getElementById('fill_in').style.display = 'block';
+          document.getElementById('ready').style.display = 'none';
+      } else {
+        document.getElementById('fill_in').style.display = 'none';
+          document.getElementById('ready').style.display = 'block';
+
+      };
+      });
+
+      final_v=values;
+      });
+
+
+
+
+  </script>
+
+  
+
+</body>
+
+</html>
